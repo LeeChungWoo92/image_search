@@ -10,12 +10,12 @@ class RecipeDataSourceImpl implements RecipeDataSource {
 
   @override
   Future<List<RecipeResultDto>> getRecipes(String foodName) async {
-    final String url = '$_pixapayUrl&q=$foodName&image_type=photo';
+    final String url = '$_pixapayUrl&q=$foodName&image_type=photo&pretty=true';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      return List.unmodifiable([RecipeResultDto.fromJson(jsonResponse)]);
+      final jsonResponse = jsonDecode(response.body)['hits'];
+      return (jsonResponse as List).map((e) => RecipeResultDto.fromJson(e)).toList();
     } else {
       throw Exception('');
     }
