@@ -14,8 +14,8 @@ class RecipeDataSourceImpl implements RecipeDataSource {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body)['hits'];
-      return (jsonResponse as List).map((e) => RecipeResultDto.fromJson(e)).toList();
+      final List jsonResponse = jsonDecode(response.body)['hits'];
+      return jsonResponse.map((e) => RecipeResultDto.fromJson(e)).toList();
     } else {
       throw Exception('');
     }
